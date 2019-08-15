@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, City, Destination, Visited_Destination, connect_to_db, db
+from model import User, City, Destination, Past_Destination, connect_to_db, db
 
 
 app = Flask(__name__)
@@ -88,6 +88,17 @@ def logout():
     flash('You have been logged out.') # you can update these to use AJAX in JS instead of being a flash message
 
     return redirect('/login')
+
+
+@app.route('/users/<user_id>')
+def show_user_profile(user_id):
+    """Displays user's Destination List and Past Destinations"""
+
+    user = User.query.filter(User.user_id==user_id).one()
+    ratings = Rating.query.filter(Rating.user_id==user_id).all()
+
+    return render_template("user_info.html", user=user,ratings=ratings)
+
 
 
 if __name__ == '__main__':

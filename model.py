@@ -57,27 +57,27 @@ class Destination(db.Model):
 
         return f'<Destination destination_id={self.destination_id} name={self.name}'
 
-class Visited_Destination(db.Model):
+class Past_Destination(db.Model):
     """User ratings of movies"""
 
-    __tablename__ = 'visited_destinations'
+    __tablename__ = 'past_destinations'
 
-    visited_destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    past_destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     destination_id = db.Column(db.Integer, db.ForeignKey('destinations.destination_id'))
 
 
     # define relationship to user
-    user = db.relationship('User', backref='visited_destinations')
+    user = db.relationship('User', backref='past_destinations')
 
     # define relationship to movie
-    destination = db.relationship('Destination', backref='visited_destinations')
+    destination = db.relationship('Destination', backref='past_destinations')
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"""<Visited_Destination 
-                   visited_destination_id={self.visited_destination_id} 
+        return f"""<Past_Destination 
+                   past_destination_id={self.past_destination_id} 
                    user_id={self.user_id} 
                    destination_id={self.destination_id}>"""
 
