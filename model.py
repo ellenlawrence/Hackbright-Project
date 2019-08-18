@@ -43,14 +43,18 @@ class City(db.Model):
 
 
 class Destination(db.Model):
-    """Destinations users can add to their favorites and use to create a route."""
+    """Destinations users can add to their list and use to create a route."""
 
     __tablename__ = 'destinations'
 
     destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     city_id = db.Column(db.Integer, db.ForeignKey('cities.city_id'))
+    # does Destination need a user_id?
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     name = db.Column(db.Text)
     address = db.Column(db.Text)
+
+    city = db.relationship('City', backref='destinations')
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -70,7 +74,7 @@ class Past_Destination(db.Model):
     # define relationship to user
     user = db.relationship('User', backref='past_destinations')
 
-    # define relationship to movie
+    # define relationship to destination
     destination = db.relationship('Destination', backref='past_destinations')
 
     def __repr__(self):

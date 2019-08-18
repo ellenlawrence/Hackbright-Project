@@ -21,9 +21,28 @@ app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def index():
-    """Homepage."""
+    """Displays signup page, with link to login page."""
     
-    return render_template('homepage.html') # there will be buttons to either login or register on the homepage
+    return render_template('homepage.html') # there will be a register form on the homepage
+
+
+@app.route('/signup', methods=['POST'])
+def process_registration():
+    """Adds a new user to database when the user submits the signup form on the 
+    homepage."""
+
+    new_user_username = request.form.get('username')
+    new_user_password = request.form.get('password')
+
+    if User.query.filter(User.username==new_user_username).all() == []:
+        
+        new_user = User(username=new_user_username, 
+                        password=new_user_password)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+    return redirect('/login')
 
 
 @app.route('/login')
@@ -45,39 +64,14 @@ def check_credentials():
     if user_object:
         session['user_id'] = user_id
         flash('You are now logged in!')
-        return redirect('/users/'+str(user_id))
+        return redirect('/profile/'+str(user_id))
 
     elif User.query.filter(User.email==user_email, User.password!=user_password).all():
         flash('Incorrect password, please try again!') # you can update these to use AJAX in JS instead of being a flash message 
         return redirect('/login')
     else:
-        flash('Email address is not recognized, please register.') # you can update these to use AJAX in JS instead of being a flash message
-        return redirect('/register')
-
-
-@app.route('/register')
-def register():
-    """Displays registration page."""
-
-    return render_template('register.html')
-
-
-@app.route('/register', methods=["POST"])
-def process_registration():
-    """Adds a new user to database"""
-
-    new_user_username = request.form.get('username')
-    new_user_password = request.form.get('password')
-
-    if User.query.filter(User.username==new_user_username).all() == []:
-        
-        new_user = User(username=new_user_username, 
-                        password=new_user_password)
-
-        db.session.add(new_user)
-        db.session.commit()
-
-    return redirect('/login')
+        flash('Email address is not recognized, please signup.') # you can update these to use AJAX in JS instead of being a flash message
+        return redirect('/signup')
 
 
 @app.route('/logout')
@@ -90,15 +84,58 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/users/<user_id>')
+@app.route('/profile/<user_id>')
 def show_user_profile(user_id):
-    """Displays user's Destination List and Past Destinations"""
+    """Displays user's username, photo(?), and Past Destinations along with a 
+    button that links to the destination search page."""
 
     user = User.query.filter(User.user_id==user_id).one()
-    ratings = Rating.query.filter(Rating.user_id==user_id).all()
+    past_destinations = Past_Destination.query.filter(Past_Destination.user_id==user_id).all()
 
-    return render_template("user_info.html", user=user,ratings=ratings)
+    return render_template('user_profile.html', user=user, past_destinations=past_destinations)
 
+
+@app.route('/<user_id>/destination-search')
+def show_search_page(user_id):
+    """Displays the destination search page."""
+
+    # shows user's username at the top in the same place it was at in the profile (find out how to do this with sessions maybe)
+    user = User.query.filter(User.user_id==user_id).one() 
+    cities = City.query.all()
+
+    # not sure how to make it so that once user selects a city, the search results will only display destinations in that city.
+    # destinations = Destination.query.filter(Destination.city_id==?)
+
+    return render_template('destination_search.html', user=user, cities=cities)
+
+
+@app.route('/<user_id>/destination-search-results')
+def search_for_destinations(user_id):
+    """Searches database for destinations that match the user's input."""
+
+    # shows user's username at the top in the same place it was at in the profile (find out how to do this with sessions maybe)
+    user = User.query.filter(User.user_id==user_id).one()
+
+    user_input = request.form.get('input')
+
+    results = Destination.query.filter(Destination.name.like('%' + user_input + '%')).all()
+
+    if results == []:
+        flash('Your search returned no results. Please try again!') # you can update these to use AJAX in JS instead of being a flash message
+        return redirect('/<user_id>/destination-search')
+
+    return render_template('search_results.html', user=user, results=results)
+
+
+@app.route('/<user_id>/map')
+def show_map_and_destination_list(user_id):
+    """Displays map centered at user's location along with the user's list of 
+    destinations they have in their destination list on the right side of the 
+    screen."""
+
+    # not sure how to store user's new destination selections
+
+    return render_template('map.html')
 
 
 if __name__ == '__main__':

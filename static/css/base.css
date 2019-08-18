@@ -1,0 +1,73 @@
+* { box-sizing: border-box; }
+
+html, body, #map {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding-top: 5%;
+  font-family: 'Raleway', 'Helvetica', sans-serif;
+}
+
+body.fullscreen {
+  padding: 0;
+}
+
+header {
+  margin: 1rem 0;
+}
+
+a {
+  color: blue;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid transparent;
+  transition: border 0.7s, color 0.7s;
+  margin-bottom: 1rem;
+}
+
+a:hover {
+  color: red;
+  border-bottom: 1px solid black;
+}
+
+.clickable { cursor: pointer; }
+
+.index {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15%;
+}
+
+.index nav {
+  font-size: 2em;
+  flex: 1 0 auto;
+}
+
+.index header {
+  font-size: 2.5em;
+  flex: 0 0 auto;
+}
+
+.index header h1 { margin: 0; }
+
+.index nav p {
+  font-size: 1em;
+  margin: 0.5em 0;
+}
+
+.index nav p::before {
+  content: ">";
+  font-size: 1em;
+  line-height: 1em;
+  margin-right: 10px;
+  display: inline-block;
+  position: relative;
+  top: -3px;
+}
+
+
