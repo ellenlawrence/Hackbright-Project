@@ -75,7 +75,7 @@ class Past_Destination(db.Model):
     user = db.relationship('User', backref='past_destinations')
 
     # define relationship to destination
-    destination = db.relationship('Destination', backref='past_destinations')
+    destination = db.relationship('Destination')
 
     def __repr__(self):
         """Provide helpful representation when printed."""

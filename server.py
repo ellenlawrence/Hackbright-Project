@@ -59,19 +59,19 @@ def check_credentials():
     user_username = request.args.get('username')
     user_password = request.args.get('password')
     user_object = User.query.filter(User.username==user_username, User.password==user_password).all()
-    user_id = user_object[0].user_id
 
     if user_object:
+        user_id = user_object[0].user_id
         session['user_id'] = user_id
         flash('You are now logged in!')
-        return redirect('/profile/'+str(user_id))
+        return redirect('/' + str(user_id) + '/profile')
 
-    elif User.query.filter(User.email==user_email, User.password!=user_password).all():
-        flash('Incorrect password, please try again!') # you can update these to use AJAX in JS instead of being a flash message 
+    elif User.query.filter(User.username==user_username, User.password!=user_password).all():
+        flash('Incorrect password, please try again!') # update these to use AJAX in JS instead of being a flash message 
         return redirect('/login')
     else:
-        flash('Email address is not recognized, please signup.') # you can update these to use AJAX in JS instead of being a flash message
-        return redirect('/signup')
+        flash('Email address is not recognized, please signup.') # update these to use AJAX in JS instead of being a flash message
+        return redirect('/')
 
 
 @app.route('/logout')
@@ -84,15 +84,16 @@ def logout():
     return redirect('/login')
 
 
-@app.route('/profile/<user_id>')
+@app.route('/<user_id>/profile')
 def show_user_profile(user_id):
     """Displays user's username, photo(?), and Past Destinations along with a 
     button that links to the destination search page."""
 
-    user = User.query.filter(User.user_id==user_id).one()
+    user = User.query.filter(User.user_id==user_id).one().username
+    
     past_destinations = Past_Destination.query.filter(Past_Destination.user_id==user_id).all()
 
-    return render_template('user_profile.html', user=user, past_destinations=past_destinations)
+    return render_template('user_profile.html', user=user, user_id=user_id, past_destinations=past_destinations)
 
 
 @app.route('/<user_id>/destination-search')
