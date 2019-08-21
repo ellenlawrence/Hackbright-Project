@@ -101,13 +101,13 @@ def show_search_page(user_id):
     """Displays the destination search page."""
 
     # shows user's username at the top in the same place it was at in the profile (find out how to do this with sessions maybe)
-    user = User.query.filter(User.user_id==user_id).one() 
+    user = User.query.filter(User.user_id==user_id).one().username 
     cities = City.query.all()
 
     # not sure how to make it so that once user selects a city, the search results will only display destinations in that city.
     # destinations = Destination.query.filter(Destination.city_id==?)
 
-    return render_template('destination_search.html', user=user, cities=cities)
+    return render_template('destination_search.html', user=user, user_id=user_id, cities=cities)
 
 
 @app.route('/<user_id>/destination-search-results')
@@ -115,17 +115,17 @@ def search_for_destinations(user_id):
     """Searches database for destinations that match the user's input."""
 
     # shows user's username at the top in the same place it was at in the profile (find out how to do this with sessions maybe)
-    user = User.query.filter(User.user_id==user_id).one()
+    user = User.query.filter(User.user_id==user_id).one().username
 
-    user_input = request.form.get('input')
+    user_input = request.args.get('destination')
 
-    results = Destination.query.filter(Destination.name.like('%' + user_input + '%')).all()
+    results = Destination.query.filter(Destination.name.like('%' + user_input + '%')).all() # need to get search to recognize matches regardless of letter case
 
     if results == []:
-        flash('Your search returned no results. Please try again!') # you can update these to use AJAX in JS instead of being a flash message
-        return redirect('/<user_id>/destination-search')
+        flash('Your search returned no results. Please try again!') # you should update these to use AJAX in JS instead of being a flash message
+        return redirect('/' + str(user_id) +'/destination-search')
 
-    return render_template('search_results.html', user=user, results=results)
+    return render_template('search_results.html', user=user, user_id=user_id, results=results)
 
 
 @app.route('/<user_id>/map')
@@ -136,7 +136,11 @@ def show_map_and_destination_list(user_id):
 
     # not sure how to store user's new destination selections
 
-    return render_template('map.html')
+    user = User.query.filter(User.user_id==user_id).one().username
+
+    destinations = request.args.get('destination')
+
+    return render_template('map.html', user_id=user_id, user=user, destinations=destinations)
 
 
 if __name__ == '__main__':

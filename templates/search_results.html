@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Profile</title>
+    <title>Search Results</title>
 
     <!-- Font Icon -->
     <!-- <link rel="stylesheet" href="static/fonts/material-icon/css/material-design-iconic-font.min.css"> -->
@@ -23,26 +23,22 @@
             <a href="/logout">Logout</a>
         </span>
     </div>
-    <div class="user-info">
-        <div>
-            <img class="img-fluid" alt="Responsive image" src="https://timesofindia.indiatimes.com/thumb/msid-68523832,width-200,height-150,resizemode-4/68523832.jpg">
-            <span>
-                <h1 class="user-username">{{ user }}</h1>
-            </span>
-            
-        </div>
-        <div>
-            
-        </div>
+    <div><br>
+        <form action="/{{ user_id }}/map" class="search-results">
+            Results:
+            <ul>
+                {% for item in results %}
+
+                    <input type="checkbox" name="destination" value="{{ item.name }}">{{ item.name }}
+                    <br>
+                
+                {% endfor %}
+            </ul>
+            <input type="submit" name="submit" class="form-submit" id="submit" value="Add to Destination List"/>
+        </form>
+        
     </div>
-    <div class="past-destinations">
-        <h2>Past Destinations</h2>
-        <ul>
-            {% for d in past_destinations %}
-                <li>{{ d.destination.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    
 {% endblock %}
 
 {% block scripts %}

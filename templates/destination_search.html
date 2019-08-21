@@ -13,36 +13,39 @@
 {% endblock %}
 {% block body %}
     <div class="navbar container-fluid">
-        <div>
+        <span>
             <a class="navbar-brand" href="/">Brand</a>
-            <a href="/{{ user_id }}/profile/">Profile</a>
+            <a href="/{{ user_id }}/profile">{{ user }}</a>
             <a href="/{{ user_id }}/destination-search">Search Destinations</a>
             <a href="/{{ user_id }}/map">Map</a>
-        </div>
-        <div>
+        </span>
+        <span>
             <a href="/logout">Logout</a>
-        </div>
+        </span>
     </div>
-    <div class="user-info">
-        <div>
-            <img class="img-fluid" alt="Responsive image" src="https://timesofindia.indiatimes.com/thumb/msid-68523832,width-200,height-150,resizemode-4/68523832.jpg">
-            <span>
-                <h1 class="user-username">{{ user }}</h1>
-            </span>
-            
-        </div>
-        <div>
-            
-        </div>
+    <div class="search-params">
+        <span>
+            <form class="city">
+              Select City:
+                <select name="city">
+                  <option value="lv">Las Vegas</option>
+                  <option value="la">Los Angeles</option>
+                  <option value="nyc">New York City</option>
+                  <option value="sf">San Francisco</option>
+                  <option value="seattle">Seattle</option>
+                  <option value="dc">Washington, D.C.</option>
+                </select>
+            </form>
+        </span>
+        <span>
+            <form action="/{{ user_id }}/destination-search-results" class="destination-search">
+                Search Destinations: <input type="text" name="destination">
+                <input type="submit" name="submit" class="form-submit" id="submit" value="Search"/>
+            </form>
+        </span>
+        <!-- how do I get the dropdown and the search input to be on the same line? the span doesn't seem to be working. -->
     </div>
-    <div class="past-destinations">
-        <h2>Past Destinations</h2>
-        <ul>
-            {% for d in past_destinations %}
-                <li>{{ d.destination.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    
 {% endblock %}
 
 {% block scripts %}
