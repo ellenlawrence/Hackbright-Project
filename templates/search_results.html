@@ -24,16 +24,16 @@
         </span>
     </div>
     <div><br>
-        <form action="/{{ user_id }}/map" class="search-results">
+        <form action="/{{ user_id }}/map" method="POST" class="search-results" id="destinations">
             Results:
-            <ul>
+            <br><br>
                 {% for item in results %}
 
-                    <input type="checkbox" name="destination" value="{{ item.name }}">{{ item.name }}
+                    <input type="checkbox" name="destination" value="{{ item.destination_id }}">{{ item.name }}
                     <br>
                 
                 {% endfor %}
-            </ul>
+            <br>  
             <input type="submit" name="submit" class="form-submit" id="submit" value="Add to Destination List"/>
         </form>
         
@@ -42,5 +42,8 @@
 {% endblock %}
 
 {% block scripts %}
-    
+    <script
+  src="http://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 {% endblock %}

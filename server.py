@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, City, Destination, Past_Destination, connect_to_db, db
+from model import User, City, Destination, User_Destination, Past_Destination, connect_to_db, db
 
 
 app = Flask(__name__)
@@ -64,7 +64,7 @@ def check_credentials():
         user_id = user_object[0].user_id
         session['user_id'] = user_id
         flash('You are now logged in!')
-        return redirect('/' + str(user_id) + '/profile')
+        return redirect(f'/{user_id}/profile')
 
     elif User.query.filter(User.username==user_username, User.password!=user_password).all():
         flash('Incorrect password, please try again!') # update these to use AJAX in JS instead of being a flash message 
@@ -119,29 +119,63 @@ def search_for_destinations(user_id):
 
     user_input = request.args.get('destination')
 
-    results = Destination.query.filter(Destination.name.like('%' + user_input + '%')).all() # need to get search to recognize matches regardless of letter case
+    city_id = request.args.get('city')
+    print(city_id) # coming up as None
+    
+    results = Destination.query.filter(Destination.city_id==city_id, Destination.name.like('%' + user_input + '%')).all() # need to get search to recognize matches regardless of letter case
 
     if results == []:
         flash('Your search returned no results. Please try again!') # you should update these to use AJAX in JS instead of being a flash message
-        return redirect('/' + str(user_id) +'/destination-search')
+        return redirect(f'/{user_id}/destination-search')
+
 
     return render_template('search_results.html', user=user, user_id=user_id, results=results)
 
 
-@app.route('/<user_id>/map')
-def show_map_and_destination_list(user_id):
+@app.route('/<user_id>/map', methods=['POST'])
+def update_destination_list(user_id):
     """Displays map centered at user's location along with the user's list of 
     destinations they have in their destination list on the right side of the 
     screen."""
 
-    # not sure how to store user's new destination selections
 
     user = User.query.filter(User.user_id==user_id).one().username
 
-    destinations = request.args.get('destination')
+    destinations = request.form.getlist('destination')
+
+    user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
+    
+    def get_dest_id(User_Destination):
+
+        return User_Destination.destination_id
+
+    dest_ids = map(get_dest_id, user_destinations)
+
+    for d in destinations:
+
+        if int(d) not in dest_ids:
+            user_destination = User_Destination(user_id=user_id, destination_id=d)
+            db.session.add(user_destination)
+    
+    db.session.commit()
+
+    return redirect(f'/{user_id}/map')
+
+
+@app.route('/<user_id>/map', methods=['GET'])
+def show_map_and_destination_list(user_id):
+
+    user = User.query.filter(User.user_id==user_id).one().username
+
+    user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all() 
+
+    destinations = []
+
+    for d in user_destinations:
+
+        destinations.append(d.destination)   
 
     return render_template('map.html', user_id=user_id, user=user, destinations=destinations)
-
 
 if __name__ == '__main__':
     # We have to set debug=True here, since it has to be True at the

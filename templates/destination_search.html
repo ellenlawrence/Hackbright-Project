@@ -25,20 +25,13 @@
     </div>
     <div class="search-params">
         <span>
-            <form class="city">
+            <form action="/{{ user_id }}/destination-search-results" class="destination-search">
               Select City:
                 <select name="city">
-                  <option value="lv">Las Vegas</option>
-                  <option value="la">Los Angeles</option>
-                  <option value="nyc">New York City</option>
-                  <option value="sf">San Francisco</option>
-                  <option value="seattle">Seattle</option>
-                  <option value="dc">Washington, D.C.</option>
+                    {% for c in cities %}
+                      <option value="{{ c.city_id }}">{{ c.name }}</option>
+                    {% endfor %}
                 </select>
-            </form>
-        </span>
-        <span>
-            <form action="/{{ user_id }}/destination-search-results" class="destination-search">
                 Search Destinations: <input type="text" name="destination">
                 <input type="submit" name="submit" class="form-submit" id="submit" value="Search"/>
             </form>
@@ -49,5 +42,8 @@
 {% endblock %}
 
 {% block scripts %}
-    
+    <script
+  src="http://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 {% endblock %}

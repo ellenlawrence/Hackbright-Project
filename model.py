@@ -49,8 +49,6 @@ class Destination(db.Model):
 
     destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     city_id = db.Column(db.Integer, db.ForeignKey('cities.city_id'))
-    # does Destination need a user_id?
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     name = db.Column(db.Text)
     address = db.Column(db.Text)
 
@@ -60,6 +58,23 @@ class Destination(db.Model):
         """Provide helpful representation when printed."""
 
         return f'<Destination destination_id={self.destination_id} name={self.name}'
+
+
+class User_Destination(db.Model):
+    """Destinations on user's Destination List."""
+
+    __tablename__ = 'user_destinations'
+
+    user_destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.destination_id'))
+        
+    # define relationship to user
+    user = db.relationship('User', backref='user_destinations')
+
+    # define relationship to destination
+    destination = db.relationship('Destination', backref='user_destinations')
+
 
 class Past_Destination(db.Model):
     """User ratings of movies"""
@@ -75,7 +90,7 @@ class Past_Destination(db.Model):
     user = db.relationship('User', backref='past_destinations')
 
     # define relationship to destination
-    destination = db.relationship('Destination')
+    destination = db.relationship('Destination', backref='past_destinations')
 
     def __repr__(self):
         """Provide helpful representation when printed."""
