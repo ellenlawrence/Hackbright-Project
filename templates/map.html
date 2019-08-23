@@ -21,13 +21,19 @@
     </div>
     <div id="floating-panel">
       <b>Destination List: </b><br>
-       <!-- <form action="/{{ user_id }}/map" id="destination-list"> -->
+       
         {% for item in destinations %}
           <input type="checkbox" name="destination" value="{{ item.destination_id }}"><label>{{ item.name }}</label><br>
         {% endfor %}
           
-          <input type="submit" name="submit" class="form-submit" id="submit" value="Route"/>
-      <!-- </form> -->
+      <b>Mode of Travel: </b>
+        <select id="mode">
+          <option value="DRIVING">Driving</option>
+          <option value="WALKING">Walking</option>
+          <option value="BICYCLING">Bicycling</option>
+        </select><br>
+      <input type="submit" name="submit" class="form-submit" id="submit" value="Route"/>
+      
     </div>
     <div id="map"></div>
     &nbsp;

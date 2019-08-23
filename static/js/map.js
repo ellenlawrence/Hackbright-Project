@@ -35,7 +35,6 @@ function initMap() {
 }
 
 function initRoute(pos, map) {
-  console.log('initialized route');
 
   // Instantiate a directions service.
   var directionsService = new google.maps.DirectionsService;
@@ -81,16 +80,17 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
   // WALKING directions.
   // turn end into waypoints once route functions are working
   var end = $(':checkbox[name=destination]:checked').next('label').text(); 
-  console.log(end);
-  console.log(pos);
+  var mode = $('select#mode option:checked').val();
+  console.log(mode);
 
   directionsService.route({
     origin: pos,
     destination: end,
-    travelMode: 'WALKING'
+    travelMode: mode
   }, function(response, status) {
     // Route the directions and pass the response to a function to create
     // markers for each step.
+    console.log(response)
     if (status === 'OK') {
       console.log('success');
       directionsDisplay.setDirections(response);
