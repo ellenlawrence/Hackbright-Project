@@ -1,18 +1,16 @@
-var map, infoWindow;
-
 function initMap() {
 
   // Create a map and center it on Manhattan.
-  var map = new google.maps.Map(document.getElementById('map'), {
+  const map = new google.maps.Map(document.getElementById('map'), {
     zoom: 17,
     center: {lat: 37.7749, lng: -122.4194}
   });
 
-  infoWindow = new google.maps.InfoWindow;
+  const infoWindow = new google.maps.InfoWindow;
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
+      const pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
@@ -34,24 +32,53 @@ function initMap() {
   }
 }
 
+// function getEnd(pos, map) {
+//   // Choose the destination from the selected destinations that is closes to
+//   // the user's current location.
+
+//   const origin = pos;
+
+//   const destinations = []; 
+//   $(':checkbox[name=destination]:checked').each(function() { 
+//     destinations.push($(this).next('label').text());
+//   });
+
+//   const mode = $('select#mode option:checked').val();
+
+//   const service = new google.maps.DistanceMatrixService;
+
+//   service.getDistanceMatrix({
+//     origins: [origin],
+//     destinations: destinations,
+//     travelMode: mode,
+//   }, function(response, status) {
+//     if (status !== 'OK') {
+//       alert('Error was: ' + status);
+//     } else {
+
+
+
+// }
+
 function initRoute(pos, map) {
+  // Initializes the route.
 
   // Instantiate a directions service.
-  var directionsService = new google.maps.DirectionsService;
+  const directionsService = new google.maps.DirectionsService;
 
   // Create a renderer for directions and bind it to the map.
-  var directionsDisplay = new google.maps.DirectionsRenderer({map: map});
+  const directionsDisplay = new google.maps.DirectionsRenderer({map: map});
 
   // Instantiate an info window to hold step text.
-  var stepDisplay = new google.maps.InfoWindow;
+  const stepDisplay = new google.maps.InfoWindow;
 
-  var markerArray = [];
+  const markerArray = [];
 
   // Display the route between the initial start and end selections.
   calculateAndDisplayRoute(
       directionsDisplay, directionsService, markerArray, stepDisplay, map, pos);
   // Listen to change events from the start and end lists.
-  // var onChangeHandler = function() {
+  // const onChangeHandler = function() {
   //   calculateAndDisplayRoute(
   //       directionsDisplay, directionsService, markerArray, stepDisplay, map, pos);
   // };
@@ -72,25 +99,46 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
     markerArray, stepDisplay, map, pos) {
   // First, remove any existing markers from the map.
-  for (var i = 0; i < markerArray.length; i++) {
+  for (let i = 0; i < markerArray.length; i++) {
     markerArray[i].setMap(null);
   }
 
-  // Retrieve the start and end locations and create a DirectionsRequest using
-  // WALKING directions.
-  // turn end into waypoints once route functions are working
-  var end = $(':checkbox[name=destination]:checked').next('label').text(); 
-  var mode = $('select#mode option:checked').val();
-  console.log(mode);
+  markerArray = []
+  
+  const mode = $('select#mode option:checked').val();
+  
+  const w = [];
+  $.each($(':checkbox[name=destination]:checked'), function(){
+    w.push($(this).val());
+  });
+  
+  // const waypoints = [];
+  // w.forEach(addWaypoint);
+  // function addWaypoint(s) {
+  //   const waypoint = {};
+  //   waypoint[location] = s;
+  //   waypoints.push(waypoint);
+  // }
+  // console.log(waypoints);
+
+  const waypts = [];
+  
+  for (let i = 0; i < w.length; i++) {
+    waypts.push({
+        location: w[i],
+        stopover: true
+      });
+  }
 
   directionsService.route({
     origin: pos,
-    destination: end,
-    travelMode: mode
+    destination: pos,
+    travelMode: mode,
+    waypoints: waypts,
+    optimizeWaypoints: true
   }, function(response, status) {
     // Route the directions and pass the response to a function to create
     // markers for each step.
-    console.log(response)
     if (status === 'OK') {
       console.log('success');
       directionsDisplay.setDirections(response);
@@ -106,9 +154,9 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
   // when calculating new routes.
-  var myRoute = directionResult.routes[0].legs[0];
-  for (var i = 0; i < myRoute.steps.length; i++) {
-    var marker = markerArray[i] = markerArray[i] || new google.maps.Marker;
+  const myRoute = directionResult.routes[0].legs[0];
+  for (let i = 0; i < myRoute.steps.length; i++) {
+    const marker = markerArray[i] = markerArray[i] || new google.maps.Marker;
     marker.setMap(map);
     marker.setPosition(myRoute.steps[i].start_location);
     attachInstructionText(

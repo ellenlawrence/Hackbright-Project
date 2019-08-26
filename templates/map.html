@@ -23,7 +23,7 @@
       <b>Destination List: </b><br>
        
         {% for item in destinations %}
-          <input type="checkbox" name="destination" value="{{ item.destination_id }}"><label>{{ item.name }}</label><br>
+          <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
         {% endfor %}
           
       <b>Mode of Travel: </b>
