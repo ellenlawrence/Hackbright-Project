@@ -5,7 +5,7 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import User, City, Destination, User_Destination, Past_Destination, connect_to_db, db
+from model import User, City, Destination, User_Destination, connect_to_db, db
 
 
 app = Flask(__name__)
@@ -91,9 +91,9 @@ def show_user_profile(user_id):
 
     user = User.query.filter(User.user_id==user_id).one().username
     
-    past_destinations = Past_Destination.query.filter(Past_Destination.user_id==user_id).all()
+    user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
 
-    return render_template('user_profile.html', user=user, user_id=user_id, past_destinations=past_destinations)
+    return render_template('user_profile.html', user=user, user_id=user_id, user_destinations=user_destinations)
 
 
 @app.route('/<user_id>/destination-search')
@@ -134,9 +134,7 @@ def search_for_destinations(user_id):
 
 @app.route('/<user_id>/map', methods=['POST'])
 def update_destination_list(user_id):
-    """Displays map centered at user's location along with the user's list of 
-    destinations they have in their destination list on the right side of the 
-    screen."""
+    
 
 
     user = User.query.filter(User.user_id==user_id).one().username
@@ -164,6 +162,9 @@ def update_destination_list(user_id):
 
 @app.route('/<user_id>/map', methods=['GET'])
 def show_map_and_destination_list(user_id):
+    """Displays map centered at user's location along with the user's list of 
+    destinations they have in their destination list on the right side of the 
+    screen."""
 
     user = User.query.filter(User.user_id==user_id).one().username
 

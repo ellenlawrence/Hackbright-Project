@@ -75,30 +75,38 @@ class User_Destination(db.Model):
     # define relationship to destination
     destination = db.relationship('Destination', backref='user_destinations')
 
-
-class Past_Destination(db.Model):
-    """User ratings of movies"""
-
-    __tablename__ = 'past_destinations'
-
-    past_destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.destination_id'))
-
-
-    # define relationship to user
-    user = db.relationship('User', backref='past_destinations')
-
-    # define relationship to destination
-    destination = db.relationship('Destination', backref='past_destinations')
-
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"""<Past_Destination 
-                   past_destination_id={self.past_destination_id} 
+        return f"""<User_Destination 
+                   user_destination_id={self.past_destination_id} 
                    user_id={self.user_id} 
                    destination_id={self.destination_id}>"""
+
+
+# class Past_Destination(db.Model):
+#     """User ratings of movies"""
+
+#     __tablename__ = 'past_destinations'
+
+#     past_destination_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+#     destination_id = db.Column(db.Integer, db.ForeignKey('destinations.destination_id'))
+
+
+#     # define relationship to user
+#     user = db.relationship('User', backref='past_destinations')
+
+#     # define relationship to destination
+#     destination = db.relationship('Destination', backref='past_destinations')
+
+#     def __repr__(self):
+#         """Provide helpful representation when printed."""
+
+#         return f"""<Past_Destination 
+#                    past_destination_id={self.past_destination_id} 
+#                    user_id={self.user_id} 
+#                    destination_id={self.destination_id}>"""
 
 ##############################################################################
 # Helper functions

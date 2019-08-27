@@ -35,10 +35,10 @@
             
         </div>
     </div>
-    <div class="past-destinations">
-        <h2>Past Destinations</h2>
+    <div class="user-destinations">
+        <h2>Your Destination List</h2>
         <ul>
-            {% for d in past_destinations %}
+            {% for d in user_destinations %}
                 <li>{{ d.destination.name }}</li>
             {% endfor %}
         </ul>

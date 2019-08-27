@@ -1,7 +1,7 @@
 """Utility file to seed database"""
 
 from sqlalchemy import func
-from model import User, City, Destination, Past_Destination
+from model import User, City, Destination
 
 from model import connect_to_db, db
 from server import app
@@ -52,19 +52,19 @@ def load_destinations():
     db.session.commit()
 
 
-def load_past_destinations():
-    """Load the destinations users have routed to in the past."""
+# def load_past_destinations():
+#     """Load the destinations users have routed to in the past."""
 
-    for row in open('seed_data/u.past_destinations'):
+#     for row in open('seed_data/u.past_destinations'):
 
-        row = row.rstrip()
-        past_destination_id, user_id, destination_id = row.split('|')
+#         row = row.rstrip()
+#         past_destination_id, user_id, destination_id = row.split('|')
 
-        past_destination = Past_Destination(past_destination_id=past_destination_id, user_id=user_id, destination_id=destination_id)
+#         past_destination = Past_Destination(past_destination_id=past_destination_id, user_id=user_id, destination_id=destination_id)
 
-        db.session.add(past_destination)
+#         db.session.add(past_destination)
 
-    db.session.commit()
+#     db.session.commit()
 
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
@@ -88,6 +88,6 @@ if __name__ == "__main__":
     load_users()
     load_cities()
     load_destinations()
-    load_past_destinations()
+    # load_past_destinations()
 
 
