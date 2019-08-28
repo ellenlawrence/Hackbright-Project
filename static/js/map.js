@@ -141,15 +141,37 @@ function showSteps(directionResult, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
   // when calculating new routes.
-  const myRoute = directionResult.routes[0].legs[0];
-  for (let i = 0; i < myRoute.steps.length; i++) {
-    window.markerArray[i] = new google.maps.Marker();
-    window.markerArray[i].setMap(map);
-    window.markerArray[i].setPosition(myRoute.steps[i].start_location);
-    attachInstructionText(stepDisplay, 
-                          window.markerArray[i], 
-                          myRoute.steps[i].instructions, 
-                          map);
+  
+  const myRoute = directionResult.routes[0];
+  const directionsPanel = document.getElementById('directions-panel');
+
+  directionsPanel.style.display = ""
+  
+  for (let i = 0; i < myRoute.legs.length; i++) {
+    let leg = myRoute.legs[i];
+    let routeSegment = i + 1;
+    
+    directionsPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
+            '</b><br>';
+    directionsPanel.innerHTML += '<b>Destination: ' + leg.end_address +
+            '</b><br>';
+    directionsPanel.innerHTML += '<b>Distance: ' + leg.distance.text +
+            '</b><br>'; 
+    directionsPanel.innerHTML += '<b>Duration: ' + leg.duration.text +
+            '</b><br>'; 
+    directionsPanel.innerHTML += '<ol id="numbered-' + i + '-list"></ol>'
+    let numberedList = document.getElementById('numbered-' + i + '-list');
+
+    for (let i = 0; i < leg.steps.length; i++) {
+      window.markerArray[i] = new google.maps.Marker();
+      window.markerArray[i].setMap(map);
+      window.markerArray[i].setPosition(leg.steps[i].start_location);
+      attachInstructionText(stepDisplay, 
+                            window.markerArray[i], 
+                            leg.steps[i].instructions, 
+                            map);
+      numberedList.innerHTML += '<li>' + leg.steps[i].instructions + '</li><br>';
+    }
   }
 }
 
