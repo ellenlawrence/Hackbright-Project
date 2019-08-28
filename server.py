@@ -1,9 +1,9 @@
 """Movie Ratings."""
 
 from jinja2 import StrictUndefined
-
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
+from sqlalchemy import func
 
 from model import User, City, Destination, User_Destination, connect_to_db, db
 
@@ -114,15 +114,13 @@ def show_search_page(user_id):
 def search_for_destinations(user_id):
     """Searches database for destinations that match the user's input."""
 
-    # shows user's username at the top in the same place it was at in the profile (find out how to do this with sessions maybe)
     user = User.query.filter(User.user_id==user_id).one().username
 
     user_input = request.args.get('destination')
 
     city_id = request.args.get('city')
-    print(city_id) # coming up as None
     
-    results = Destination.query.filter(Destination.city_id==city_id, Destination.name.like('%' + user_input + '%')).all() # need to get search to recognize matches regardless of letter case
+    results = Destination.query.filter(Destination.city_id==city_id, Destination.name.ilike('%' + user_input + '%')).all() # need to get search to recognize matches regardless of letter case
 
     if results == []:
         flash('Your search returned no results. Please try again!') # you should update these to use AJAX in JS instead of being a flash message
@@ -134,12 +132,13 @@ def search_for_destinations(user_id):
 
 @app.route('/<user_id>/map', methods=['POST'])
 def update_destination_list(user_id):
-    
-
+    """Adds selected destinations to user's Destination List if they are not
+    in there already."""
 
     user = User.query.filter(User.user_id==user_id).one().username
 
-    destinations = request.form.getlist('destination')
+    destinations = request.form.getlist('destination[]')
+    print(destinations)
 
     user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
     

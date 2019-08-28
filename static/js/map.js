@@ -145,7 +145,8 @@ function showSteps(directionResult, stepDisplay, map) {
   const myRoute = directionResult.routes[0];
   const directionsPanel = document.getElementById('directions-panel');
 
-  directionsPanel.style.display = ""
+  directionsPanel.style.display = '';
+  directionsPanel.innerHTML = '';
   
   for (let i = 0; i < myRoute.legs.length; i++) {
     let leg = myRoute.legs[i];
@@ -163,11 +164,12 @@ function showSteps(directionResult, stepDisplay, map) {
     let numberedList = document.getElementById('numbered-' + i + '-list');
 
     for (let i = 0; i < leg.steps.length; i++) {
-      window.markerArray[i] = new google.maps.Marker();
-      window.markerArray[i].setMap(map);
-      window.markerArray[i].setPosition(leg.steps[i].start_location);
+      const marker = new google.maps.Marker();
+      window.markerArray.push(marker);
+      marker.setMap(map);
+      marker.setPosition(leg.steps[i].start_location);
       attachInstructionText(stepDisplay, 
-                            window.markerArray[i], 
+                            marker, 
                             leg.steps[i].instructions, 
                             map);
       numberedList.innerHTML += '<li>' + leg.steps[i].instructions + '</li><br>';
