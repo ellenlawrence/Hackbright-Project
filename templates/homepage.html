@@ -17,17 +17,23 @@
         <section class="signup">
             <div class="container">
                 <div class="signup-content">
-                    <form action = "/signup" method="POST" class="signup-form" id="signup-form">
+                    <form action = "/signup" method="POST" class="signup-form" id="signup-form" enctype="multipart/form-data">
                         <h2 class="form-title">Create account</h2>
                         <div class="form-group">
                             <input type="text" class="form-input" name="username" id="username" placeholder="Username" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="password" id="password" placeholder="Password" required>
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Password" required>
                             <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Re-enter your password" required>
+                        </div>
+                        <div>
+                            <label for="prof-pic">Choose a profile picture:</label>
+                            <input type="file"
+                                   id="prof-pic" name="prof-pic"
+                                   required>
                         </div>
                         <div class="form-group">
                             <input type="checkbox" name="agree-term" id="agree-term" class="agree-term">

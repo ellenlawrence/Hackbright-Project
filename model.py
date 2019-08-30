@@ -20,7 +20,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(64), nullable=True)
     password = db.Column(db.String(64), nullable=True)
-    # img_url = db. Column(db.String(1000), nullable=True)
+    img = db.Column(db.String(1000), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""

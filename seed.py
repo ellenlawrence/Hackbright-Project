@@ -6,18 +6,18 @@ from model import User, City, Destination
 from model import connect_to_db, db
 from server import app
 
-def load_users():
-    """Load users into database."""
+# def load_users():
+#     """Load users into database."""
 
-    # Delete all rows in table, so if we need to run this a second time,
-    # we won't be trying to add duplicate users
-    User.query.delete()
+#     # Delete all rows in table, so if we need to run this a second time,
+#     # we won't be trying to add duplicate users
+#     User.query.delete()
 
-    user = User(username='jhacks', password='password123')
+#     user = User(username='jhacks', password='password123')
 
-    db.session.add(user)
+#     db.session.add(user)
 
-    db.session.commit()
+#     db.session.commit()
 
 
 def load_cities():
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     # In case tables haven't been created, create them
     db.create_all()
 
-    load_users()
+    # load_users()
     load_cities()
     load_destinations()
     # load_past_destinations()

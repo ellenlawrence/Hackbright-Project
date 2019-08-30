@@ -1,14 +1,20 @@
 """Movie Ratings."""
 
 from jinja2 import StrictUndefined
-from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify, url_for)
+from werkzeug.utils import secure_filename
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import func
+import os
 
 from model import User, City, Destination, User_Destination, connect_to_db, db
 
+UPLOAD_FOLDER = '/Users/ellenlawrence/src/project/static/images'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
@@ -26,6 +32,11 @@ def index():
     return render_template('homepage.html') # there will be a register form on the homepage
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/signup', methods=['POST'])
 def process_registration():
     """Adds a new user to database when the user submits the signup form on the 
@@ -33,11 +44,17 @@ def process_registration():
 
     new_user_username = request.form.get('username')
     new_user_password = request.form.get('password')
+    file = request.files['prof-pic']
+    
+    if allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     if User.query.filter(User.username==new_user_username).all() == []:
         
         new_user = User(username=new_user_username, 
-                        password=new_user_password)
+                        password=new_user_password,
+                        img=filename)
 
         db.session.add(new_user)
         db.session.commit()
@@ -63,14 +80,13 @@ def check_credentials():
     if user_object:
         user_id = user_object[0].user_id
         session['user_id'] = user_id
-        flash('You are now logged in!')
         return redirect(f'/{user_id}/profile')
 
     elif User.query.filter(User.username==user_username, User.password!=user_password).all():
-        flash('Incorrect password, please try again!') # update these to use AJAX in JS instead of being a flash message 
+        flash('Incorrect password, please try again!') # flash messages aren't working 
         return redirect('/login')
     else:
-        flash('Email address is not recognized, please signup.') # update these to use AJAX in JS instead of being a flash message
+        flash('Email address is not recognized, please sign up.')
         return redirect('/')
 
 
@@ -86,28 +102,33 @@ def logout():
 
 @app.route('/<user_id>/profile')
 def show_user_profile(user_id):
-    """Displays user's username, photo(?), and Past Destinations along with a 
-    button that links to the destination search page."""
+    """Displays user's username, profile picture, and their Destinations List 
+    along with a button that links to the destination search page."""
 
-    user = User.query.filter(User.user_id==user_id).one().username
-    
+    user = User.query.filter(User.user_id==user_id).one()
+    username = user.username
+    profile_pic = user.img
     user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
 
-    return render_template('user_profile.html', user=user, user_id=user_id, user_destinations=user_destinations)
+    return render_template('user_profile.html', 
+                            username=username, 
+                            user_id=user_id, 
+                            profile_pic=profile_pic, 
+                            user_destinations=user_destinations)
 
 
 @app.route('/<user_id>/destination-search')
 def show_search_page(user_id):
     """Displays the destination search page."""
 
-    # shows user's username at the top in the same place it was at in the profile (find out how to do this with sessions maybe)
     user = User.query.filter(User.user_id==user_id).one().username 
     cities = City.query.all()
 
-    # not sure how to make it so that once user selects a city, the search results will only display destinations in that city.
-    # destinations = Destination.query.filter(Destination.city_id==?)
 
-    return render_template('destination_search.html', user=user, user_id=user_id, cities=cities)
+    return render_template('destination_search.html', 
+                            user=user, 
+                            user_id=user_id, 
+                            cities=cities)
 
 
 @app.route('/<user_id>/destination-search-results')
@@ -116,18 +137,24 @@ def search_for_destinations(user_id):
 
     user = User.query.filter(User.user_id==user_id).one().username
 
+    cities = City.query.all()
+
     user_input = request.args.get('destination')
 
     city_id = request.args.get('city')
     
-    results = Destination.query.filter(Destination.city_id==city_id, Destination.name.ilike('%' + user_input + '%')).all() # need to get search to recognize matches regardless of letter case
+    results = Destination.query.filter(Destination.city_id==city_id, Destination.name.ilike('%' + user_input + '%')).all()
 
     if results == []:
-        flash('Your search returned no results. Please try again!') # you should update these to use AJAX in JS instead of being a flash message
+        flash('Your search returned no results. Please try again!')
         return redirect(f'/{user_id}/destination-search')
 
 
-    return render_template('search_results.html', user=user, user_id=user_id, results=results)
+    return render_template('search_results.html', 
+                            user=user, 
+                            user_id=user_id, 
+                            cities=cities, 
+                            results=results)
 
 
 @app.route('/<user_id>/map', methods=['POST'])
@@ -175,7 +202,10 @@ def show_map_and_destination_list(user_id):
 
         destinations.append(d.destination)   
 
-    return render_template('map.html', user_id=user_id, user=user, destinations=destinations)
+    return render_template('map.html', 
+                            user_id=user_id, 
+                            user=user, 
+                            destinations=destinations)
 
 if __name__ == '__main__':
     # We have to set debug=True here, since it has to be True at the

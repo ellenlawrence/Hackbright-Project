@@ -23,6 +23,20 @@
             <a href="/logout">Logout</a>
         </span>
     </div>
+    <div class="search-params">
+        <span>
+            <form action="/{{ user_id }}/destination-search-results" class="destination-search">
+              Select City:
+                <select name="city">
+                    {% for c in cities %}
+                      <option value="{{ c.city_id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+                Search Destinations: <input type="text" name="destination">
+                <input type="submit" name="submit" class="form-submit" id="submit" value="Search"/>
+            </form>
+        </span>
+    </div>
     <div><br>
         <form action="/{{ user_id }}/map" method="POST" class="search-results" id="destinations" data-user-id="{{ user_id }}">
             Results:

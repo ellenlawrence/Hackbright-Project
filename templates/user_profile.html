@@ -15,7 +15,7 @@
     <div class="navbar container-fluid">
         <span>
             <a class="navbar-brand" href="/">Brand</a>
-            <a href="/{{ user_id }}/profile">{{ user }}</a>
+            <a href="/{{ user_id }}/profile">{{ username }}</a>
             <a href="/{{ user_id }}/destination-search">Search Destinations</a>
             <a href="/{{ user_id }}/map">Map</a>
         </span>
@@ -25,9 +25,9 @@
     </div>
     <div class="user-info">
         <div>
-            <img class="img-fluid" alt="Responsive image" src="https://timesofindia.indiatimes.com/thumb/msid-68523832,width-200,height-150,resizemode-4/68523832.jpg">
+            <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ profile_pic }}">
             <span>
-                <h1 class="user-username">{{ user }}</h1>
+                <h1 class="user-username">{{ username }}</h1>
             </span>
             
         </div>
