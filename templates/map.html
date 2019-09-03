@@ -25,37 +25,37 @@
         Las Vegas:<br>
           {% for item in destinations %}
             {% if item.city_id == 3 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
+              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
             {% endif %}
           {% endfor %}
         Los Angeles:<br>
           {% for item in destinations %}
             {% if item.city_id == 2 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
+              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
             {% endif %}
           {% endfor %}
         New York City:<br>
           {% for item in destinations %}
             {% if item.city_id == 4 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
+              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
             {% endif %}
           {% endfor %}
         San Francisco:<br>
           {% for item in destinations %}
             {% if item.city_id == 1 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
+              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
             {% endif %}
           {% endfor %}
         Seattle:<br>
           {% for item in destinations %}
             {% if item.city_id == 6 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
+              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
             {% endif %}
           {% endfor %}
         Washington, D.C.:<br>
           {% for item in destinations %}
             {% if item.city_id == 5 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}"><label>{{ item.name }}</label><br>
+              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
             {% endif %}
           {% endfor %}
           
@@ -77,6 +77,8 @@
 {% endblock %}
 
 {% block scripts %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.5/fuse.min.js"></script>
 
     <script
   src="http://code.jquery.com/jquery-3.4.1.min.js"

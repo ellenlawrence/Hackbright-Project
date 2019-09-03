@@ -43,6 +43,15 @@
                             <input type="submit" name="submit" class="form-submit" id="submit" value="Sign up"/>
                         </div>
                     </form>
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <ul class=flashes>
+                        {% for message in messages %}
+                          <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                      {% endif %}
+                    {% endwith %}
                     <p class="loginhere">
                         Already have an account? <a href="/login" class="loginhere-link">Login here</a>
                     </p>

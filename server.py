@@ -86,7 +86,8 @@ def check_credentials():
         flash('Incorrect password, please try again!') # flash messages aren't working 
         return redirect('/login')
     else:
-        flash('Email address is not recognized, please sign up.')
+        flash('Username not recognized.')
+        print('hello')
         return redirect('/')
 
 

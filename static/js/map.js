@@ -102,17 +102,20 @@ function calculateAndDisplayRoute(
   window.markerArray = [];
   
   const mode = $('select#mode option:checked').val();
-  
-  const w = [];
+
+  const selectedDestinations = [];
   $.each($(':checkbox[name=destination]:checked'), function(){
-    w.push($(this).val());
+    let address = $(this).val();
+    let name = $(this).data('name');
+    selectedDestinations.push({address: address,
+            name: name});
   });
 
   const waypts = [];
   
-  for (let i = 0; i < w.length; i++) {
+  for (let i = 0; i < selectedDestinations.length; i++) {
     waypts.push({
-        location: w[i],
+        location: selectedDestinations[i].address,
         stopover: true
       });
   }
@@ -129,7 +132,7 @@ function calculateAndDisplayRoute(
     if (status === 'OK') {
       console.log('success');
       directionsDisplay.setDirections(response);
-      showSteps(response, stepDisplay, map);
+      showSteps(response, stepDisplay, map, selectedDestinations);
     } else {
       console.log('failed');
       window.alert('Directions request failed due to ' + status);
@@ -137,25 +140,45 @@ function calculateAndDisplayRoute(
   });
 }
 
-function showSteps(directionResult, stepDisplay, map) {
+function showSteps(directionResult, stepDisplay, map, selectedDestinations, pos) {
   // For each step, place a marker, and add the text to the marker's infowindow.
   // Also attach the marker to an array so we can keep track of it and remove it
   // when calculating new routes.
   
   const myRoute = directionResult.routes[0];
   const directionsPanel = document.getElementById('directions-panel');
+  const upperLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 
+  'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
   directionsPanel.style.display = '';
   directionsPanel.innerHTML = '';
+
+  const options = {
+    tokenize: true,
+    keys: [{
+      name: 'address',
+    }]
+  };
+
+  const fuse = new Fuse(selectedDestinations, options);
   
   for (let i = 0; i < myRoute.legs.length; i++) {
     let leg = myRoute.legs[i];
-    let routeSegment = i + 1;
+
+    const searchResult = fuse.search(leg.end_address);
     
-    directionsPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
-            '</b><br>';
-    directionsPanel.innerHTML += '<b>Destination: ' + leg.end_address +
-            '</b><br>';
+    directionsPanel.innerHTML += '<b>Route Segment: ' + upperLetters[i] + ' to ' +
+    upperLetters[i + 1] + '</b><br>';
+    
+    if (i != (myRoute.legs.length - 1)) {
+      directionsPanel.innerHTML += '<b>Destination: ' + searchResult[0].name +
+              '</b><br>';
+    }    
+    else {
+      directionsPanel.innerHTML += '<b>Destination: ' + leg.end_address +
+              '</b><br>';
+    }
+
     directionsPanel.innerHTML += '<b>Distance: ' + leg.distance.text +
             '</b><br>'; 
     directionsPanel.innerHTML += '<b>Duration: ' + leg.duration.text +
