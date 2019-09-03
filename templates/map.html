@@ -21,44 +21,14 @@
     </div>
     <div id="floating-panel">
       <b>Destination List: </b><br>
-
-        Las Vegas:<br>
-          {% for item in destinations %}
-            {% if item.city_id == 3 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
-            {% endif %}
-          {% endfor %}
-        Los Angeles:<br>
-          {% for item in destinations %}
-            {% if item.city_id == 2 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
-            {% endif %}
-          {% endfor %}
-        New York City:<br>
-          {% for item in destinations %}
-            {% if item.city_id == 4 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
-            {% endif %}
-          {% endfor %}
-        San Francisco:<br>
-          {% for item in destinations %}
-            {% if item.city_id == 1 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
-            {% endif %}
-          {% endfor %}
-        Seattle:<br>
-          {% for item in destinations %}
-            {% if item.city_id == 6 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
-            {% endif %}
-          {% endfor %}
-        Washington, D.C.:<br>
-          {% for item in destinations %}
-            {% if item.city_id == 5 %}
-              <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
-            {% endif %}
-          {% endfor %}
-          
+        {% for city in cities %}
+          {{ city.name }}:<br>
+            {% for item in destinations %}
+              {% if item.city_id == city.city_id %}
+                <input type="checkbox" name="destination" value="{{ item.address }}" data-name="{{ item.name }}"><label>{{ item.name }}</label><br>
+              {% endif %}
+            {% endfor %}
+        {% endfor %}
       <b>Mode of Travel: </b>
         <select id="mode">
           <option value="DRIVING">Driving</option>

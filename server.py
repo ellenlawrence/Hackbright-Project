@@ -179,7 +179,8 @@ def update_destination_list(user_id):
     for d in destinations:
 
         if int(d) not in dest_ids:
-            user_destination = User_Destination(user_id=user_id, destination_id=d)
+            user_destination = User_Destination(user_id=user_id, 
+                                                destination_id=d)
             db.session.add(user_destination)
     
     db.session.commit()
@@ -199,13 +200,17 @@ def show_map_and_destination_list(user_id):
 
     destinations = []
 
+    cities = set()
+
     for d in user_destinations:
 
-        destinations.append(d.destination)   
-
+        destinations.append(d.destination)
+        cities.add(d.destination.city)
+    
     return render_template('map.html', 
                             user_id=user_id, 
                             user=user, 
+                            cities=cities,
                             destinations=destinations)
 
 if __name__ == '__main__':
