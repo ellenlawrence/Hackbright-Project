@@ -47,38 +47,6 @@ function initMap() {
   }
 }
 
-
-
-// }
-
-// function initRoute(pos, map) {
-//   // Initializes the route.
-
-//   // Instantiate a directions service.
-//   const directionsService = new google.maps.DirectionsService;
-
-//   // Create a renderer for directions and bind it to the map.
-//   const directionsDisplay = new google.maps.DirectionsRenderer({map: map});
-
-//   // Instantiate an info window to hold step text.
-//   const stepDisplay = new google.maps.InfoWindow;
-
-//   const markerArray = [];
-
-//   // Display the route between the initial start and end selections.
-//   calculateAndDisplayRoute(
-//       directionsDisplay, directionsService, markerArray, stepDisplay, map, pos);
-//   // Listen to change events from the start and end lists.
-//   // const onChangeHandler = function() {
-//   //   calculateAndDisplayRoute(
-//   //       directionsDisplay, directionsService, markerArray, stepDisplay, map, pos);
-//   // };
-//   // // recalculate and display new route when user checks different destinations
-//   // // and hits 'route' again
-//   // document.getElementById('destination').addEventListener('change', onChangeHandler);
-// }
-  
-
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.setPosition(pos);
   infoWindow.setContent(browserHasGeolocation ?

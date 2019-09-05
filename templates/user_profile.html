@@ -25,7 +25,22 @@
     </div>
     <div class="user-info">
         <div>
-            <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ profile_pic }}">
+            {% if user.img %}
+                <div>
+                    <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
+                </div>
+                {% set word = "Update" %}
+            {% endif %}
+            {% if not user.img %}
+                {% set word = "Add" %}
+            {% endif %}
+            <div>
+                <form action = "/{{ user_id }}/profile" method="POST" class="prof-pic" id="create-prof-pic" enctype="multipart/form-data">
+                    <label for="prof-pic">{{ word }} profile picture</label><br>
+                        <input type="file" id="prof-pic" name="prof-pic" required><br>
+                        <input type="submit" name="submit" class="form-submit" id="submit"/>
+                </form>
+            </div>
             <span>
                 <h1 class="user-username">{{ username }}</h1>
             </span>

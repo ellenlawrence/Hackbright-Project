@@ -32,11 +32,6 @@ def index():
     return render_template('homepage.html') # there will be a register form on the homepage
 
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
 @app.route('/signup', methods=['POST'])
 def process_registration():
     """Adds a new user to database when the user submits the signup form on the 
@@ -44,17 +39,12 @@ def process_registration():
 
     new_user_username = request.form.get('username')
     new_user_password = request.form.get('password')
-    file = request.files['prof-pic']
     
-    if allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
     if User.query.filter(User.username==new_user_username).all() == []:
         
         new_user = User(username=new_user_username, 
-                        password=new_user_password,
-                        img=filename)
+                        password=new_user_password)
 
         db.session.add(new_user)
         db.session.commit()
@@ -83,7 +73,7 @@ def check_credentials():
         return redirect(f'/{user_id}/profile')
 
     elif User.query.filter(User.username==user_username, User.password!=user_password).all():
-        flash('Incorrect password, please try again!') # flash messages aren't working 
+        flash('Incorrect password, please try again!') 
         return redirect('/login')
     else:
         flash('Username not recognized.')
@@ -96,25 +86,41 @@ def logout():
     """Logs user out."""
 
     session['user_id'] = None
-    flash('You have been logged out.') # you can update these to use AJAX in JS instead of being a flash message
+    flash('You have been logged out.')
 
     return redirect('/login')
 
 
-@app.route('/<user_id>/profile')
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/<user_id>/profile', methods=['GET', 'POST'])
 def show_user_profile(user_id):
     """Displays user's username, profile picture, and their Destinations List 
     along with a button that links to the destination search page."""
 
     user = User.query.filter(User.user_id==user_id).one()
     username = user.username
-    profile_pic = user.img
     user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
+
+    try:
+        file = request.files['prof-pic']
+        
+        if allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                user.img = filename
+                print(user.img)
+                db.session.commit()
+    except:
+        pass
 
     return render_template('user_profile.html', 
                             username=username, 
                             user_id=user_id, 
-                            profile_pic=profile_pic, 
+                            user=user, 
                             user_destinations=user_destinations)
 
 
@@ -166,7 +172,6 @@ def update_destination_list(user_id):
     user = User.query.filter(User.user_id==user_id).one().username
 
     destinations = request.form.getlist('destination[]')
-    print(destinations)
 
     user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
     
