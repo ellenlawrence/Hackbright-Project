@@ -21,38 +21,63 @@ class FlaskTests(TestCase):
         # Get the Flask test client
         self.client = app.test_client()
         app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'ABC'
+
+        # Logs in test user
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
 
         # Connect to test database
         connect_to_db(app, "postgresql:///testdb")
 
-        # dropping old tables
-        db.drop_all()
-
         # Create tables and add sample data
         db.create_all()
         
-        self.user = User(user_id=1, username='username1', password='password1')
-        # self.city = 
-        # self.destination = Destination()
+        user = User(username='correctusername', 
+                    password='correctpassword')
+        city = City(name='San Francisco')
+        destination = Destination(city=city, 
+                                  name='Mission Dolores Park', 
+                                  address='Dolores St &, 19th St, San Francisco, CA 94114')
 
-        db.session.add(self.user)
+        db.session.add_all([user, city])
         db.session.commit()
 
-    def test_check_credentials(self):
+    def test_wrong_password(self):
         """Make sure the check_credentials function is returning the correct 
         results."""
 
-        result = self.client.get("/check_login",
-                                  query_string={"username": "username1", "password": "123"},
+        result = self.client.get('/check_login',
+                                  query_string={'username': 'correctusername', 'password': 'wrongpassword'},
                                   follow_redirects=True)
 
-        self.assertIn(b"Incorrect password, please try again!", result.data)
+        self.assertIn(b'Incorrect password, please try again!', result.data)
+
+
+    def test_wrong_username(self):
+        """Make sure the check_credentials function is returning the correct 
+        results."""
+
+        result = self.client.get('/check_login',
+                                  query_string={'username': 'wrongusername', 'password': 'correctpassword'},
+                                  follow_redirects=True)
+
+        self.assertIn(b'Username not recognized.', result.data)
+
 
     def test_add_destination(self):
 
-        # result = self.client.post("/{}/map".format(self.user.user_id),
-        #                           data={"destination[]": self.destination.destination_id})
-        self.assertNotEqual(User_Destination.query.all(), [])
+        result = self.client.post('/1/map',
+                                  data={"destination[]": 1})
+        self.assertEqual(User_Destination.query.count(), 1)
+
+
+    def tearDown(self):
+        """Stuff to do after every test."""
+
+        # dropping old tables
+        db.drop_all()
 
 
 

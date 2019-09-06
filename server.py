@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
+app.secret_key = 'ABC'
 
 # Normally, if you use an undefined variable in Jinja2, it fails
 # silently. This is horrible. Fix this so that, instead, it raises an
@@ -77,7 +77,6 @@ def check_credentials():
         return redirect('/login')
     else:
         flash('Username not recognized.')
-        print('hello')
         return redirect('/')
 
 
@@ -99,7 +98,7 @@ def allowed_file(filename):
 def checked_logged_in(user_id):
     """Throws error if user tries to access page when not logged in."""
 
-    if session.get('user_id') != user_id:
+    if session.get('user_id') != int(user_id):
         abort(403)
 
 

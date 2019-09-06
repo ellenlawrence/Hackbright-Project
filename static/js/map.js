@@ -88,7 +88,10 @@ function calculateAndDisplayRoute(
       });
   }
 
-  directionsService.route({
+  if (waypts.length === 0) {
+    alert('You must select at least one item from your Destination List in order to create a route.')
+  } else {
+    directionsService.route({
     origin: pos,
     destination: pos,
     travelMode: mode,
@@ -106,6 +109,7 @@ function calculateAndDisplayRoute(
       window.alert('Directions request failed due to ' + status);
     }
   });
+  }
 }
 
 function showSteps(directionResult, stepDisplay, map, selectedDestinations, pos) {
