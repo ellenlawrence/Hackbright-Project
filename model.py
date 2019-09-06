@@ -102,7 +102,7 @@ class User_Destination(db.Model):
         """Provide helpful representation when printed."""
 
         return f"""<User_Destination 
-                   user_destination_id={self.past_destination_id} 
+                   user_destination_id={self.user_destination_id} 
                    user_id={self.user_id} 
                    destination_id={self.destination_id}>"""
 
@@ -110,11 +110,11 @@ class User_Destination(db.Model):
 ##############################################################################
 # Helper functions
 
-def connect_to_db(app):
+def connect_to_db(app, uri='postgresql:///database'):
     """Connect the database to our Flask app."""
 
     # Configure to use our PstgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///database'
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
