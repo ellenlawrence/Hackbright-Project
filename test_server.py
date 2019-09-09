@@ -4,15 +4,6 @@ from server import app
 from model import User, City, Destination, User_Destination, connect_to_db, db
 
 
-# def example_data():
-#     """Create some sample data."""
-
-#     user1 = User('username1', 'password1')
-
-#     db.session.add(user1)
-#     db.session.commit()
-
-
 class FlaskTests(TestCase):
 
     def setUp(self):
@@ -70,14 +61,18 @@ class FlaskTests(TestCase):
 
         result = self.client.post('/1/map',
                                   data={"destination[]": 1})
+    
         self.assertEqual(User_Destination.query.count(), 1)
-
+        
 
     def tearDown(self):
         """Stuff to do after every test."""
 
+        db.session.remove()
+        
         # dropping old tables
         db.drop_all()
+        db.engine.dispose()
 
 
 
