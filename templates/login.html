@@ -6,55 +6,58 @@
     <title>Login</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="static/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 {% block body %}
     <div class="main">
-
-        <section class="login">
-            <div class="container">
-                <div class="login-content">
-                    <form action="/check_login" id="login-form" class="login-form">
-                        <h2 class="form-title">Login</h2>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="username" id="username" placeholder="Username"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
-                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" name="submit" id="submit" class="form-submit" value="Login"/>
-                        </div>
-                    </form>
-                    {% with messages = get_flashed_messages() %}
-                      {% if messages %}
-                        <ul class=flashes>
-                        {% for message in messages %}
-                          <li>{{ message }}</li>
-                        {% endfor %}
-                        </ul>
-                      {% endif %}
-                    {% endwith %}
-                    <p class="signuphere">
-                        Don't have an account? <a href="/" class="signuphere-link">Sign up here</a>
-                    </p>
+        <div class="homepage-hero-module">
+            <video autoplay loop muted playsinline src="/static/videos/Golden_Gate_Traffic.mp4" class="fillWidth"></video>
+            <section class="login">
+                <div class="container">
+                    <div class="login-content">
+                        <form action="/check_login" id="login-form" class="login-form">
+                            <h2 class="form-title">Login</h2>
+                            <div class="form-group">
+                                <input type="text" class="form-input" name="username" id="username" placeholder="Username"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-input" name="password" id="password" placeholder="Password"/>
+                                <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" id="submit" class="form-submit" value="Login"/>
+                            </div>
+                        </form>
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                            <ul class=flashes>
+                            {% for message in messages %}
+                              <li>{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                          {% endif %}
+                        {% endwith %}
+                        <p class="signuphere">
+                            Don't have an account? <a href="/" class="signuphere-link">Sign up here</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script
-  src="http://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-    <script src="/static/js/password_toggle.js"></script>
+      src="http://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/static/js/password_toggle.js"></script>
+    <script type="text/javascript" src="/static/js/ggb_video.js"></script>
 {% endblock %}
 
 

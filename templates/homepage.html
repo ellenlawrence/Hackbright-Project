@@ -13,55 +13,58 @@
 {% endblock %}
 {% block body %}
     <div class="main">
-
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <form action = "/signup" method="POST" class="signup-form" id="signup-form" enctype="multipart/form-data">
-                        <h2 class="form-title">Create account</h2>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="username" id="username" placeholder="Username" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-input" name="password" id="password" placeholder="Password" required>
-                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Re-enter your password" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term">
-                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree to the <a href="#" class="term-service">Terms of service</a></label>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" name="submit" class="form-submit" id="submit" value="Sign up"/>
-                        </div>
-                    </form>
-                    {% with messages = get_flashed_messages() %}
-                      {% if messages %}
-                        <ul class=flashes>
-                        {% for message in messages %}
-                          <li>{{ message }}</li>
-                        {% endfor %}
-                        </ul>
-                      {% endif %}
-                    {% endwith %}
-                    <p class="loginhere">
-                        Already have an account? <a href="/login" class="loginhere-link">Login here</a>
-                    </p>
+        <div class="homepage-hero-module">
+            <video autoplay loop muted playsinline src="/static/videos/Golden_Gate_Traffic.mp4" class="fillWidth"></video>
+            <section class="signup">
+                <div class="container">
+                    <div class="signup-content">
+                        <form action = "/signup" method="POST" class="signup-form" id="signup-form" enctype="multipart/form-data">
+                            <h2 class="form-title">Create account</h2>
+                            <div class="form-group">
+                                <input type="text" class="form-input" name="username" id="username" placeholder="Username" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-input" name="password" id="password" placeholder="Password" required>
+                                <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Re-enter your password" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term">
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree to the <a href="#" class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" class="form-submit" id="submit" value="Sign up"/>
+                            </div>
+                        </form>
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                            <ul class=flashes>
+                            {% for message in messages %}
+                              <li>{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                          {% endif %}
+                        {% endwith %}
+                        <p class="loginhere">
+                            Already have an account? <a href="/login" class="loginhere-link">Login here</a>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </section>
-
+            </section>
+        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script
-  src="http://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-    <script src="/static/js/password_toggle.js"></script>
+      src="http://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/static/js/password_toggle.js"></script>
+    <script type="text/javascript" src="/static/js/ggb_video.js"></script>
 {% endblock %}
 
 

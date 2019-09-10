@@ -112,6 +112,12 @@ def show_user_profile(user_id):
     user = User.query.filter(User.user_id==user_id).one()
     username = user.username
     user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
+    all_cities = City.query.all()
+    user_cities = set()
+
+    for d in user_destinations:
+
+        user_cities.add(d.destination.city)
 
     try:
         file = request.files['prof-pic']
@@ -129,7 +135,9 @@ def show_user_profile(user_id):
                             username=username, 
                             user_id=user_id, 
                             user=user, 
-                            user_destinations=user_destinations)
+                            user_destinations=user_destinations,
+                            all_cities=all_cities,
+                            user_cities=user_cities)
 
 
 @app.route('/<user_id>/destination-search')
