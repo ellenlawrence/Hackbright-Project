@@ -445,11 +445,7 @@ ul {
   margin-left: 75px;
   margin-bottom: 20px;
   border: 1px solid #ebebeb;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -o-border-radius: 2px;
-  -ms-border-radius: 2px;
+  border-radius: 150px;
 }
 
 .new-prof-pic {
@@ -462,6 +458,16 @@ ul {
   -webkit-border-radius: 2px;
   -o-border-radius: 2px;
   -ms-border-radius: 2px;
+}
+
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-info {
+
 }
 
 .destination-search {

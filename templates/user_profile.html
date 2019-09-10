@@ -45,66 +45,45 @@
         </span>
       </div>
     </nav>
-
-    <!-- <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">DayMap</a>
-        <div>
-            <a href="/{{ user_id }}/profile">{{ username }}</a>
-            <a href="/{{ user_id }}/map">Map</a>
-            <a href="/logout">Logout</a>
-        </div>
-        <form action="/{{ user_id }}/destination-search-results" class="destination-search">
-            <select name="city">
-                {% for c in all_cities %}
-                  <option value="{{ c.city_id }}">{{ c.name }}</option>
-                {% endfor %}
-            </select>
-            <input type="text" name="destination" placeholder="search destinations">
-            <input type="submit" name="submit" class="form-submit" id="submit" value="Search"/>
-        </form>
-       
-    </nav> -->
-    <div class="user-info">
-        <div>
-            {% if user.img %}
-                <div>
-                    <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
+    <div class="centered-content">
+        <div class="user-info">
+            <div>
+                {% if user.img %}
+                    <div>
+                        <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
+                    </div>
+                    {% set word = "Update" %}
+                {% endif %}
+                {% if not user.img %}
+                    {% set word = "Add" %}
+                {% endif %}
+                <div class="new-prof-pic">
+                    <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="create-prof-pic" enctype="multipart/form-data">
+                        <label for="prof-pic">{{ word }} profile picture</label><br>
+                            <input type="file" id="prof-pic" name="prof-pic" required><br>
+                            <input type="submit" name="submit" class="form-submit" id="submit"/>
+                    </form>
                 </div>
-                {% set word = "Update" %}
-            {% endif %}
-            {% if not user.img %}
-                {% set word = "Add" %}
-            {% endif %}
-            <div class="new-prof-pic">
-                <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="create-prof-pic" enctype="multipart/form-data">
-                    <label for="prof-pic">{{ word }} profile picture</label><br>
-                        <input type="file" id="prof-pic" name="prof-pic" required><br>
-                        <input type="submit" name="submit" class="form-submit" id="submit"/>
-                </form>
+                <span>
+                    <h1 class="user-username">{{ username }}</h1>
+                </span>
             </div>
-            <span>
-                <h1 class="user-username">{{ username }}</h1>
-            </span>
-            
         </div>
-        <div>
-            
+        <div class="user-destinations">
+            <h2>Your Destination List</h2>
+                {% for city in user_cities %}
+                    <div>
+                        {{ city.name }}:<br>
+                        <ul>
+                            {% for d in user_destinations %}
+                                {% if d.destination.city_id == city.city_id %}
+                                    <li>{{ d.destination.name }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
         </div>
-    </div>
-    <div class="user-destinations">
-        <h2>Your Destination List</h2>
-            {% for city in user_cities %}
-                <div>
-                    {{ city.name }}:<br>
-                    <ul>
-                        {% for d in user_destinations %}
-                            {% if d.destination.city_id == city.city_id %}
-                                <li>{{ d.destination.name }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
     </div>
 {% endblock %}
 
