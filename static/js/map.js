@@ -30,7 +30,7 @@ function initMap() {
                 "color": "#a5b7c2"
             },
             {
-                "lightness": "68"
+                "lightness": "78"
             }
         ]
     },
@@ -328,6 +328,9 @@ function initMap() {
         "stylers": [
             {
                 "color": "#c5eaff"
+            },
+            {
+                "lightness": "15"
             }
         ]
     }];
