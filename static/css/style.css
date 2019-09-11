@@ -95,7 +95,9 @@ input[type=checkbox] {
   -moz-appearance: checkbox !important;
   -webkit-appearance: checkbox !important;
   -o-appearance: checkbox !important;
-  -ms-appearance: checkbox !important; }
+  -ms-appearance: checkbox !important; 
+  display: inline !important;
+}
 
 input[type=radio] {
   appearance: radio !important;
@@ -441,9 +443,6 @@ ul {
 .prof-pic {
   display: inline-block;
   width: 300px;
-  margin-top: 75px; 
-  margin-left: 75px;
-  margin-bottom: 20px;
   border: 1px solid #ebebeb;
   border-radius: 150px;
 }
@@ -460,14 +459,21 @@ ul {
   -ms-border-radius: 2px;
 }
 
-.centered-content {
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.user-destinations {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.user-info {
-
+.user-username {
+  display: inline-flex;
+  font-size: 3rem;
 }
 
 .destination-search {
@@ -486,6 +492,28 @@ ul {
   padding: 0 10px;
 }
 
+.dest-list {
+  line-height: 1.66;
+  margin: 0;
+  padding: 0;
+  font-weight: 900;
+  color: #8990CC;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.search-results input {
+  height: 40px;
+  width: 250px;
+  margin-top: 0;
+  margin-left: 20px; 
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
 .field-icon {
   float: right;
   margin-right: 17px;
@@ -493,6 +521,49 @@ ul {
   position: relative;
   z-index: 2;
   color: #555; }
+
+.prof-pic-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-text-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  border-radius: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.hover-text-container:hover {
+  background-color: rgba(137, 144, 204, 0.7);
+  opacity: 1;
+}
+
+.update-prof-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(137, 144, 204, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  width: 250px;
+  padding: 10px;
+}
 
 @media screen and (max-width: 768px) {
   .container {

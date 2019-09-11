@@ -5,38 +5,46 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Search Results</title>
 
+    <!-- Bootstrap CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <!-- Font Icon -->
-    <!-- <link rel="stylesheet" href="static/fonts/material-icon/css/material-design-iconic-font.min.css"> -->
+    <link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <!-- <link rel="stylesheet" href="static/css/style.css"> -->
+    <link rel="stylesheet" href="/static/css/style.css">
 {% endblock %}
 {% block body %}
-    <div class="navbar container-fluid">
-        <span>
-            <a class="navbar-brand" href="/">Brand</a>
-            <a href="/{{ user_id }}/profile">{{ user }}</a>
-            <a href="/{{ user_id }}/destination-search">Search Destinations</a>
-            <a href="/{{ user_id }}/map">Map</a>
-        </span>
-        <span>
-            <a href="/logout">Logout</a>
-        </span>
-    </div>
-    <div class="search-params">
-        <span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">DayMap</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/{{ user_id }}/profile">{{ user }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/{{ user_id }}/map">Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
+        <span class="navbar-text">
             <form action="/{{ user_id }}/destination-search-results" class="destination-search">
-              Select City:
                 <select name="city">
                     {% for c in cities %}
                       <option value="{{ c.city_id }}">{{ c.name }}</option>
                     {% endfor %}
                 </select>
-                Search Destinations: <input type="text" name="destination">
+                <input type="text" name="destination" placeholder="search destinations">
                 <input type="submit" name="submit" class="form-submit" id="submit" value="Search"/>
             </form>
         </span>
-    </div>
+      </div>
+    </nav>
     <div><br>
         <form action="/{{ user_id }}/map" method="POST" class="search-results" id="destinations" data-user-id="{{ user_id }}">
             Results:
@@ -61,5 +69,5 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
 
-  <script type="text/javascript" src="/static/js/search_results.js"></script>
+    <script type="text/javascript" src="/static/js/search_results.js"></script>
 {% endblock %}

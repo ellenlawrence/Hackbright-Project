@@ -45,51 +45,51 @@
         </span>
       </div>
     </nav>
-    <div class="centered-content">
-        <div class="user-info">
-            <div>
-                {% if user.img %}
-                    <div>
-                        <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
+    <div class="user-info">
+        <div>
+            {% if user.img %}
+                <div class="prof-pic-container">
+                    <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
+                    <div class="hover-text-container" id="hover-text-container">
+                        <span class="hover-text">Update profile picture</span>
                     </div>
-                    {% set word = "Update" %}
-                {% endif %}
-                {% if not user.img %}
-                    {% set word = "Add" %}
-                {% endif %}
-                <div class="new-prof-pic">
-                    <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="create-prof-pic" enctype="multipart/form-data">
-                        <label for="prof-pic">{{ word }} profile picture</label><br>
-                            <input type="file" id="prof-pic" name="prof-pic" required><br>
-                            <input type="submit" name="submit" class="form-submit" id="submit"/>
-                    </form>
                 </div>
-                <span>
-                    <h1 class="user-username">{{ username }}</h1>
-                </span>
-            </div>
+            {% endif %}
+            <span>
+                <h1 class="user-username">{{ username }}</h1>
+            </span>
         </div>
-        <div class="user-destinations">
-            <h2>Your Destination List</h2>
-                {% for city in user_cities %}
-                    <div>
-                        {{ city.name }}:<br>
-                        <ul>
-                            {% for d in user_destinations %}
-                                {% if d.destination.city_id == city.city_id %}
-                                    <li>{{ d.destination.name }}</li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endfor %}
+    </div>
+    <div class="user-destinations">
+        <h2 class="dest-list">Your Destination List</h2>
+            {% for city in user_cities %}
+                <div>
+                    {{ city.name }}:<br>
+                    <ul>
+                        {% for d in user_destinations %}
+                            {% if d.destination.city_id == city.city_id %}
+                                <li>{{ d.destination.name }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+    </div>
+    <div class="update-prof-modal" style="display: none" id="prof-modal">
+        <div class="modal-content" id="modal-content">
+            <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="create-prof-pic" enctype="multipart/form-data">
+                <input type="file" id="prof-pic" name="prof-pic" required><br>
+                <input type="submit" name="submit" class="form-submit" id="submit"/>
+            </form>
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
     <script
-  src="http://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+      src="http://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/static/js/user_profile.js"></script>
 {% endblock %}

@@ -12,5 +12,3 @@
       });
 
 })(jQuery);
-
-// can't figure out how to get this to work

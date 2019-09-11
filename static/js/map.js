@@ -4,9 +4,344 @@ function initMap() {
 
   // Create a map and center it on San Francisco.
   const map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 17,
+    zoom: 14,
     center: {lat: 37.7749, lng: -122.4194}
   });
+
+  function addStyles(map) {
+  const styles = [
+    {
+        "featureType": "administrative.land_parcel",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "off"
+            },
+            {
+                "color": "#332727"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.man_made",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#a5b7c2"
+            },
+            {
+                "lightness": "68"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape.natural",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#64b590"
+            },
+            {
+                "visibility": "on"
+            },
+            {
+                "lightness": "81"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "all",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            },
+            {
+                "color": "#8989cc"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#8990cc"
+            },
+            {
+                "lightness": "70"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "visibility": "simplified"
+            },
+            {
+                "hue": "#0900ff"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "color": "#8990cc"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.business",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#8989cc"
+            },
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.government",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#cc9f6b"
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#b86b6b"
+            },
+            {
+                "visibility": "simplified"
+            },
+            {
+                "lightness": "61"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ca9191"
+            },
+            {
+                "lightness": "68"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "##000000"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.medical",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "color": "#ca9191"
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#84c09b"
+            },
+            {
+                "visibility": "simplified"
+            },
+            {
+                "lightness": "54"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#84c09b"
+            },
+            {
+                "lightness": "61"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "color": "#84c09b"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.place_of_worship",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#8989cc"
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.school",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#8989cc"
+            },
+            {
+                "visibility": "simplified"
+            },
+            {
+                "lightness": "61"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.school",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#8986cc"
+            },
+            {
+                "lightness": "70"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.school",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "color": "#8986cc"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.sports_complex",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#8989cc"
+            },
+            {
+                "lightness": "61"
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.sports_complex",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#8990cc"
+            },
+            {
+                "lightness": "70"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.sports_complex",
+        "elementType": "labels",
+        "stylers": [
+            {
+                "color": "#8990cc"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#ffc894"
+            },
+            {
+                "lightness": "27"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#394399"
+            },
+            {
+                "lightness": "84"
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "visibility": "on"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#c5eaff"
+            }
+        ]
+    }];
+
+  const customMapType = new google.maps.StyledMapType(
+    styles,
+    { name: 'Custom Style' }
+  );
+
+  map.mapTypes.set('map_style', customMapType);
+  map.setMapTypeId('map_style');
+  }
+
+  addStyles(map);
 
   const infoWindow = new google.maps.InfoWindow;
 
