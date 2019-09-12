@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = 'ABC'
+app.secret_key = os.environ.get('SECRET_KEY')
 
 # Normally, if you use an undefined variable in Jinja2, it fails
 # silently. This is horrible. Fix this so that, instead, it raises an
@@ -243,7 +243,8 @@ def show_map_and_destination_list(user_id):
                             user=user, 
                             cities=cities,
                             all_cities=all_cities,
-                            destinations=destinations)
+                            destinations=destinations,
+                            google_maps_key=os.environ.get('GOOGLE_MAPS_API_KEY'))
 
 if __name__ == '__main__':
     # We have to set debug=True here, since it has to be True at the

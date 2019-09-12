@@ -12,7 +12,7 @@ class FlaskTests(TestCase):
         # Get the Flask test client
         self.client = app.test_client()
         app.config['TESTING'] = True
-        app.config['SECRET_KEY'] = 'ABC'
+        app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 
         # Logs in test user
         with self.client as c:
