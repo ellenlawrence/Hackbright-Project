@@ -229,6 +229,8 @@ def show_map_and_destination_list(user_id):
 
     destinations = []
 
+    all_cities = City.query.all()
+
     cities = set()
 
     for d in user_destinations:
@@ -240,6 +242,7 @@ def show_map_and_destination_list(user_id):
                             user_id=user_id, 
                             user=user, 
                             cities=cities,
+                            all_cities=all_cities,
                             destinations=destinations)
 
 if __name__ == '__main__':

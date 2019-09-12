@@ -3,22 +3,46 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Map</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
     
     <link rel="stylesheet"  href="/static/css/map.css">
     
 {% endblock %}
 {% block body %}
-    <div class="navbar container-fluid">
-      <span>
-        <a class="navbar-brand" href="/">Brand</a>
-        <a href="/{{ user_id }}/profile">{{ user }}</a>
-        <a href="/{{ user_id }}/destination-search">Search Destinations</a>
-        <a href="/{{ user_id }}/map">Map</a>
-      </span>
-      <span>
-        <a href="/logout">Logout</a>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">DayMap</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/{{ user_id }}/profile">{{ user }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/{{ user_id }}/map">Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
+        <span class="navbar-text">
+            <form action="/{{ user_id }}/destination-search-results" class="destination-search">
+                <select name="city">
+                    {% for c in all_cities %}
+                      <option value="{{ c.city_id }}">{{ c.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="destination" placeholder="search destinations">
+                <input type="submit" name="submit" class="form-submit" id="submit" value="Search"/>
+            </form>
+        </span>
+      </div>
+    </nav>
     <div id="floating-panel">
       <b>Destination List: </b><br>
         {% for city in cities %}
@@ -35,14 +59,12 @@
           <option value="WALKING">Walking</option>
           <option value="BICYCLING">Bicycling</option>
         </select><br>
-      <input type="submit" name="submit" class="form-submit" id="submit" value="Route"/>
+      <input type="submit" name="submit" class="form-submit" id="route-submit" value="Route"/>
       
     </div>
-    <div id="directions-panel" style="display: none;">
-    </div>
+    <div id="directions-panel" style="display: none;"></div>
     <div id="map"></div>
-    &nbsp;
-    
+    &nbsp;  
     
 {% endblock %}
 
@@ -51,10 +73,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.5/fuse.min.js"></script>
 
     <script
-  src="http://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous">
+      src="http://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous">
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="/static/js/map.js"></script>
     

@@ -1,7 +1,6 @@
 window.markerArray = [];
 
 function initMap() {
-
   // Create a map and center it on San Francisco.
   const map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
@@ -364,7 +363,8 @@ function initMap() {
       // Instantiate an info window to hold step text.
       const stepDisplay = new google.maps.InfoWindow;
 
-      $('#submit').on('click', () => {
+      $('#route-submit').on('click', () => {
+        console.log('clickhandler');
         calculateAndDisplayRoute(directionsDisplay,
                                  directionsService,
                                  stepDisplay,
@@ -471,6 +471,7 @@ function showSteps(directionResult, stepDisplay, map, selectedDestinations, pos)
   };
 
   const fuse = new Fuse(selectedDestinations, options);
+  // const markerImage = '/static/images/marker_img.svg'
   
   for (let i = 0; i < myRoute.legs.length; i++) {
     let leg = myRoute.legs[i];

@@ -533,7 +533,15 @@ ul {
   margin-bottom: 25px;
 }
 
-.search-results input {
+video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: auto;
+}
+
+.search-results input[type=submit] {
   height: 40px;
   width: 250px;
   margin-top: 0;
@@ -601,4 +609,8 @@ ul {
   .signup-content {
     padding: 50px 25px; } }
 
-/*# sourceMappingURL=style.css.map */
+#agree-term {
+  display: none !important;
+}
+
+
