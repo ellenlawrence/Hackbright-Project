@@ -459,20 +459,48 @@ ul {
   -ms-border-radius: 2px;
 }
 
+.prof {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: url(/static/images/concrete_seamless.png);
+  background-repeat: repeat;
+}
+
+.results {
+  background: url(/static/images/creampaper.png);
+}
+
+.results-header {
+  line-height: 1.66;
+  margin: 0;
+  padding: 0;
+  margin-left: 40px;
+  font-weight: 900;
+  color: #8990CC;
+  font-family: 'Montserrat';
+  font-size: 24px;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0;
+}
+
 .user-info {
   display: flex;
   flex-direction: column;
   align-items: left;
+  padding: 90px;
 }
 
 .user-destinations {
-  display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 1rem;
+  padding: 90px;
 }
 
 .user-username {
-  display: inline-flex;
+  text-align:  center;
   font-size: 3rem;
 }
 
@@ -499,10 +527,10 @@ ul {
   font-weight: 900;
   color: #8990CC;
   font-family: 'Montserrat';
-  font-size: 24px;
+  font-size: 30px;
   text-transform: uppercase;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 .search-results input {
@@ -510,7 +538,7 @@ ul {
   width: 250px;
   margin-top: 0;
   margin-left: 20px; 
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 0 10px;
 }
 

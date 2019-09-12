@@ -45,9 +45,9 @@
         </span>
       </div>
     </nav>
-    <div><br>
+    <div class="results"><br>
         <form action="/{{ user_id }}/map" method="POST" class="search-results" id="destinations" data-user-id="{{ user_id }}">
-            Results:
+            <label class="results-header">Results:</label>
             <br><br>
                 {% for item in results %}
 

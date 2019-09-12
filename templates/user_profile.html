@@ -45,42 +45,44 @@
         </span>
       </div>
     </nav>
-    <div class="user-info">
-        <div>
-            {% if user.img %}
-                <div class="prof-pic-container">
-                    <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
-                    <div class="hover-text-container" id="hover-text-container">
-                        <span class="hover-text">Update profile picture</span>
+    <div class="prof">
+        <div class="user-info">
+            <div>
+                {% if user.img %}
+                    <div class="prof-pic-container">
+                        <img class="prof-pic" alt="Profile Picture" src="/static/images/{{ user.img }}">
+                        <div class="hover-text-container" id="hover-text-container">
+                            <span class="hover-text">Update profile picture</span>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-            <span>
-                <h1 class="user-username">{{ username }}</h1>
-            </span>
-        </div>
-    </div>
-    <div class="user-destinations">
-        <h2 class="dest-list">Your Destination List</h2>
-            {% for city in user_cities %}
+                {% endif %}
                 <div>
-                    {{ city.name }}:<br>
-                    <ul>
-                        {% for d in user_destinations %}
-                            {% if d.destination.city_id == city.city_id %}
-                                <li>{{ d.destination.name }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                    <h1 class="user-username">{{ username }}</h1>
                 </div>
-            {% endfor %}
-    </div>
-    <div class="update-prof-modal" style="display: none" id="prof-modal">
-        <div class="modal-content" id="modal-content">
-            <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="create-prof-pic" enctype="multipart/form-data">
-                <input type="file" id="prof-pic" name="prof-pic" required><br>
-                <input type="submit" name="submit" class="form-submit" id="submit"/>
-            </form>
+            </div>
+        </div>
+        <div class="user-destinations">
+            <h2 class="dest-list">Your Destination List</h2>
+                {% for city in user_cities %}
+                    <div>
+                        {{ city.name }}:<br>
+                        <ul>
+                            {% for d in user_destinations %}
+                                {% if d.destination.city_id == city.city_id %}
+                                    <li>{{ d.destination.name }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+        </div>
+        <div class="update-prof-modal" style="display: none" id="prof-modal">
+            <div class="modal-content" id="modal-content">
+                <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="create-prof-pic" enctype="multipart/form-data">
+                    <input type="file" id="prof-pic" name="prof-pic" required><br>
+                    <input type="submit" name="submit" class="form-submit" id="submit"/>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}
