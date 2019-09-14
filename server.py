@@ -112,6 +112,7 @@ def show_user_profile(user_id):
     user = User.query.filter(User.user_id==user_id).one()
     username = user.username
     user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
+    user_destinations.sort(key=lambda d: d.destination.name)
     all_cities = City.query.all()
     user_cities = set()
 
@@ -140,22 +141,6 @@ def show_user_profile(user_id):
                             user_cities=user_cities)
 
 
-@app.route('/<user_id>/destination-search')
-def show_search_page(user_id):
-    """Displays the destination search page."""
-
-    checked_logged_in(user_id)
-
-    user = User.query.filter(User.user_id==user_id).one().username 
-    cities = City.query.all()
-
-
-    return render_template('destination_search.html', 
-                            user=user, 
-                            user_id=user_id, 
-                            cities=cities)
-
-
 @app.route('/<user_id>/destination-search-results')
 def search_for_destinations(user_id):
     """Searches database for destinations that match the user's input."""
@@ -171,6 +156,7 @@ def search_for_destinations(user_id):
     city_id = request.args.get('city')
     
     results = Destination.query.filter(Destination.city_id==city_id, Destination.name.ilike('%' + user_input + '%')).all()
+    results.sort(key=lambda d: d.name)
 
     if results == []:
         flash('Your search returned no results. Please try again!')
@@ -225,7 +211,8 @@ def show_map_and_destination_list(user_id):
 
     user = User.query.filter(User.user_id==user_id).one().username
 
-    user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all() 
+    user_destinations = User_Destination.query.filter(User_Destination.user_id==user_id).all()
+    user_destinations.sort(key=lambda d: d.destination.name) 
 
     destinations = []
 
@@ -249,7 +236,7 @@ def show_map_and_destination_list(user_id):
 if __name__ == '__main__':
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 

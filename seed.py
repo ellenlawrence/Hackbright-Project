@@ -9,11 +9,7 @@ from server import app
 # def load_users():
 #     """Load users into database."""
 
-#     # Delete all rows in table, so if we need to run this a second time,
-#     # we won't be trying to add duplicate users
-#     User.query.delete()
-
-#     user = User(username='jhacks', password='password123')
+#     user = User(username='ellen', password='password')
 
 #     db.session.add(user)
 
@@ -22,8 +18,6 @@ from server import app
 
 def load_cities():
     """Load all the available cities users can choose from."""
-
-    City.query.delete()
 
     for row in open('seed_data/u.cities'):
 
@@ -52,20 +46,6 @@ def load_destinations():
     db.session.commit()
 
 
-# def load_past_destinations():
-#     """Load the destinations users have routed to in the past."""
-
-#     for row in open('seed_data/u.past_destinations'):
-
-#         row = row.rstrip()
-#         past_destination_id, user_id, destination_id = row.split('|')
-
-#         past_destination = Past_Destination(past_destination_id=past_destination_id, user_id=user_id, destination_id=destination_id)
-
-#         db.session.add(past_destination)
-
-#     db.session.commit()
-
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
 
@@ -88,6 +68,5 @@ if __name__ == "__main__":
     # load_users()
     load_cities()
     load_destinations()
-    # load_past_destinations()
-
+    
 

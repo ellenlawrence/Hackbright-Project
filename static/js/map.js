@@ -471,7 +471,7 @@ function showSteps(directionResult, stepDisplay, map, selectedDestinations, pos)
   };
 
   const fuse = new Fuse(selectedDestinations, options);
-  // const markerImage = '/static/images/marker_img.svg'
+  const markerImage = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
   
   for (let i = 0; i < myRoute.legs.length; i++) {
     let leg = myRoute.legs[i];
@@ -498,7 +498,7 @@ function showSteps(directionResult, stepDisplay, map, selectedDestinations, pos)
     let numberedList = document.getElementById('numbered-' + i + '-list');
 
     for (let i = 0; i < leg.steps.length; i++) {
-      const marker = new google.maps.Marker();
+      const marker = new google.maps.Marker({icon: markerImage});
       window.markerArray.push(marker);
       marker.setMap(map);
       marker.setPosition(leg.steps[i].start_location);

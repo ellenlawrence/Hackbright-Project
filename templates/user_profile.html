@@ -56,13 +56,22 @@
                         </div>
                     </div>
                 {% endif %}
+                {% if not user.img %}
+                    <div>
+                        Add a profile picture:
+                        <form action = "/{{ user_id }}/profile" method="POST" class="create-prof-pic" id="new-prof-pic" enctype="multipart/form-data">
+                            <input type="file" id="prof-pic" name="prof-pic" required><br>
+                            <input type="submit" name="submit" class="form-submit" id="submit"/>
+                        </form>
+                    </div>
+                {% endif %}
                 <div>
                     <h1 class="user-username">{{ username }}</h1>
                 </div>
             </div>
         </div>
         <div class="user-destinations">
-            <h2 class="dest-list">Your Destination List</h2>
+            <h2 class="dest-list">{{ username }}'s Destination List</h2>
                 {% for city in user_cities %}
                     <div>
                         {{ city.name }}:<br>
