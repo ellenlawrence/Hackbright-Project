@@ -40,7 +40,7 @@ DayMap is an app built on a Flask server with a PostgreSQL database, with SQLAlc
 
 The signup and login pages both feature a video of the Golden Gate Bridge as the background. The password field
 includes a toggle button that allows the user to either view or hide their password. There is also a *very* 
-important Terms of Service that must be viewed and agreed to before a user account can be created.
+important Terms of Service that must be viewed and agreed to before a user account can be created... ;)
 
 
 ![alt text](https://github.com/ellenlawrence/DayMap/blob/master/static/images/prof-page.png "DayMap Profile Page")
