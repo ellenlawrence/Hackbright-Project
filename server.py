@@ -29,7 +29,7 @@ app.jinja_env.undefined = StrictUndefined
 def index():
     """Displays signup page, with link to login page."""
     
-    return render_template('homepage.html') # there will be a register form on the homepage
+    return render_template('homepage.html')
 
 
 @app.route('/signup', methods=['POST'])
