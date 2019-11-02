@@ -457,7 +457,7 @@ function showSteps(directionResult, stepDisplay, map, selectedDestinations, pos)
   
   const myRoute = directionResult.routes[0];
   const directionsPanel = document.getElementById('directions-panel');
-  const upperLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 
+  const upperLetters = ['Your Location', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 
   'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
   directionsPanel.style.display = '';

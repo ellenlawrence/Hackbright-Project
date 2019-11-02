@@ -1,4 +1,3 @@
-"""Movie Ratings."""
 
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify, url_for, abort)
@@ -20,7 +19,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = os.environ.get('SECRET_KEY')
 
 # Normally, if you use an undefined variable in Jinja2, it fails
-# silently. This is horrible. Fix this so that, instead, it raises an
+# silently. This makes it so that, instead, it raises an
 # error.
 app.jinja_env.undefined = StrictUndefined
 
